@@ -9,7 +9,7 @@ export default function Home() {
         <title>Naruto Wiki</title>
       </Head>
       <div>
-        <h1>Home Page</h1>
+        <h1 className='mb-3'>Home Page</h1>
         <Link href="/author">Ir</Link>
       </div>
     </Layout>
