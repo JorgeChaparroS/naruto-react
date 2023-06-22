@@ -8,8 +8,10 @@ export default function About() {
             <Head>
                 <title>Sobre este proyecto</title>
             </Head>
-            <h1>Sobre este proyecto</h1>
-            <Link href="/">Volver</Link>
+            <main className='container mx-auto content-page-container'>
+                <h1>Sobre este proyecto</h1>
+                <Link href="/">Volver</Link>
+            </main>
         </Layout>
     );
 }

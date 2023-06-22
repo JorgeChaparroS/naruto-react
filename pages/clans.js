@@ -8,8 +8,10 @@ export default function Clans() {
             <Head>
                 <title>Clanes</title>
             </Head>
-            <h1>Clanes</h1>
-            <Link href="/">Volver</Link>
+            <main className='container mx-auto content-page-container'>
+                <h1>Clanes</h1>
+                <Link href="/">Volver</Link>
+            </main>
         </Layout>
     );
 }
