@@ -8,10 +8,9 @@ export default function Home() {
       <Head>
         <title>Naruto Wiki</title>
       </Head>
-      <div>
-        <h1 className='mb-3'>Home Page</h1>
-        <Link href="/author">Ir</Link>
-      </div>
+      <main className='container mx-auto content-page-container'>
+          <h1>Home Page</h1>
+      </main>
     </Layout>
   )
 }

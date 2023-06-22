@@ -1,5 +1,16 @@
-import styles from './layout.module.css';
+import Header from './header';
+import Footer from './footer';
 
 export default function Layout({ children }) {
-    return <div className={styles.contentPageContainer}>{children}</div>;
+    return (
+        <>
+            <Header></Header>
+            <section className="background-general">
+                <section className="content-page">
+                    {children}
+                </section>
+                <Footer></Footer>
+            </section>
+        </>
+    );
 }

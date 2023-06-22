@@ -8,8 +8,10 @@ export default function Author() {
             <Head>
                 <title>Jorge Chaparro</title>
             </Head>
-            <h1>Jorge Chaparro</h1>
-            <Link href="/">Volver</Link>
+            <main className='container mx-auto content-page-container'>
+                <h1>Jorge Chaparro</h1>
+                <Link href="/">Volver</Link>
+            </main>
         </Layout>
     );
 }

@@ -1,0 +1,22 @@
+@import '../styles/variables.module.scss';
+
+.header {
+    background-color: rgb(95, 95, 163);
+    position: fixed;
+    z-index: 1;
+    .img {
+        max-width: 60px;
+        @media (min-width: $min-width-tablet) {
+            max-width: 80px;
+        }
+        @media (min-width: $min-width-desktop) {
+            max-width: 100px;
+        }
+    }
+    .h1 {
+        color: $white;
+        @media (max-width: $min-width-desktop) {
+            text-align: right;
+        }
+    }
+}

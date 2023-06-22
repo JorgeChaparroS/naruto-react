@@ -8,8 +8,10 @@ export default function Characters() {
             <Head>
                 <title>Personajes</title>
             </Head>
-            <h1>Personajes</h1>
-            <Link href="/">Volver</Link>
+            <main className='container mx-auto content-page-container'>
+                <h1>Personajes</h1>
+                <Link href="/">Volver</Link>
+            </main>
         </Layout>
     );
 }
