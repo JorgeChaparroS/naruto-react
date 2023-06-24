@@ -14,7 +14,7 @@ export default function Author() {
     return (
         <Layout>
             <Head>
-                <title>{i18n.header} - Jorge Chaparro</title>
+                <title>{`${i18n.header} - Jorge Chaparro`}</title>
             </Head>
             <main className='container mx-auto content-page-container'>
                 <h1>Jorge Chaparro</h1>

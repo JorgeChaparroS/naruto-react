@@ -2,6 +2,7 @@ import styles from './header.module.scss';
 import { useRouter } from 'next/router';
 import en from '../../public/i18n/en';
 import es from '../../public/i18n/es';
+import Language from '../language/language';
 
 const imageHeaderUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Shuriken_%28Naruto%29.svg/2048px-Shuriken_%28Naruto%29.svg.png';
 
@@ -25,7 +26,7 @@ export default function Header(){
                     <div className="row justify-content-end justify-content-xl-between align-items-center">
                         <h1 className={h1Classes}>{i18n.header}</h1>
                         <section className="col-5 col-md-4 col-xl-2 mt-4 mt-xl-0">
-                            Lenguaje
+                            <Language></Language>
                         </section>
                     </div>
                 </aside>

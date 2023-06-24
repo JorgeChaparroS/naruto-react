@@ -14,7 +14,7 @@ export default function Characters() {
     return (
         <Layout>
             <Head>
-                <title>{i18n.header} - {i18n.mainPage.charactersCard.title}</title>
+                <title>{`${i18n.header} - ${i18n.mainPage.charactersCard.title}`}</title>
             </Head>
             <main className='container mx-auto content-page-container'>
                 <h1>Personajes</h1>

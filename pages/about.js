@@ -14,7 +14,7 @@ export default function About() {
     return (
         <Layout>
             <Head>
-                <title>{i18n.header} - {i18n.footer.about}</title>
+                <title>{`${i18n.header} - ${i18n.footer.about}`}</title>
             </Head>
             <main className='container mx-auto content-page-container'>
                 <h1>Sobre este proyecto</h1>

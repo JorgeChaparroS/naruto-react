@@ -14,7 +14,7 @@ export default function Clans() {
     return (
         <Layout>
             <Head>
-                <title>{i18n.header} - {i18n.mainPage.clansCard.title}</title>
+                <title>{`${i18n.header} - ${i18n.mainPage.clansCard.title}`}</title>
             </Head>
             <main className='container mx-auto content-page-container'>
                 <h1>Clanes</h1>
