@@ -1,0 +1,53 @@
+@import '../../styles/variables.module.scss';
+
+.cvContainer {
+    border-radius: 50px;
+    background-color: $white;
+
+    .img {
+        border: 2px solid $black;
+        width: 50%;
+        max-width: 200px;
+        height: auto;
+    }
+    .h4 {
+        font-size: 24px;
+    }
+
+    .h6 {
+        font-size: 20px;
+    }
+
+    .sectionTitle {
+        background-color: dodgerblue;
+        box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
+        border: 1px solid $white;
+    }
+
+    .datesContainer, .datesContainerTop, .datesContainerBottom, .datesContainerCenter {
+        background-color: $black;
+        .span {
+            color: $white !important;
+        }
+    }
+
+    .datesContainer {
+        border-radius: 50px;
+    }
+
+    .datesContainerTop {
+        border-radius: 50px 50px 0px 0px;
+    }
+
+    .datesContainerBottom {
+        border-radius: 0px 0px 50px 50px;
+    }
+
+    .datesContainer, .sectionTitle {
+        color: $white;
+    }
+}
+
+.h4, .h6, .span, .p, .a, .li {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
