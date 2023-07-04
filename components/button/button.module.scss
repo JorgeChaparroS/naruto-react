@@ -1,0 +1,13 @@
+@import '../../styles/variables.module.scss';
+
+.button {
+    font-family: 'SubtitleFont' !important;
+    font-weight: bold;
+    font-size: 16px;
+    @media (min-width: $min-width-tablet) {
+        font-size: 18px;
+    }
+    @media (min-width: $min-width-desktop) {
+        font-size: 22px;
+    }
+}
