@@ -8,6 +8,7 @@ import MyInput from '../../components/input/input';
 import styles from './clans.module.scss';
 import { Constants } from '../../utils/constants';
 import Loader from '../../components/loader/loader';
+import Paginator from '../../components/paginator/paginator';
 
 export default function Clans() {
 
@@ -18,7 +19,7 @@ export default function Clans() {
     const [clansPaginated, setClansPaginated] = useState([]);
     let clansFiltered = [];
     let enableNextPage = false;
-    let currentPage = 0;
+    const [currentPage, setCurrentPage] = useState(0);
     const [showLoader, setShowLoader] = useState(true);
     const [keyWord, setKeyWord] = useState('');
 
@@ -32,21 +33,25 @@ export default function Clans() {
             setShowLoader(false);
         };
         getClans();
-    }, []);
+    }, [])
 
     useEffect(() => {
         const filterByName = () => {
             const searchBy = keyWord.toUpperCase();
             clansFiltered = clans?.filter(clan => clan?.name?.toUpperCase().includes(searchBy));
             setClansPaginated(generatePaginationRecords(0));
-            currentPage = 0
+            setCurrentPage(0);
         };
         filterByName();
     }, [keyWord])
 
-    const generatePaginationRecords = (currentPage) => {
+    useEffect(() => {
+        setClansPaginated(generatePaginationRecords(currentPage));
+    }, [currentPage]);
+
+    const generatePaginationRecords = (newCurrentPage) => {
         const paginatedRecords = [];
-        const offset = currentPage * 10;
+        const offset = newCurrentPage * 10;
         clansFiltered?.forEach((clan, index) => {
             if (index >= offset && index < offset + 10) {
                 paginatedRecords.push(clan);
@@ -122,6 +127,8 @@ export default function Clans() {
                                         }
                                     </tbody>
                                 </table>
+
+                                <Paginator enableNextPage={true} currentPage={currentPage} setCurrentPage={setCurrentPage}></Paginator>
                             </section>
                         </>
                     )
