@@ -3,17 +3,58 @@ import Layout from '../../components/layout/layout';
 import { useRouter } from 'next/router';
 import en from '../../public/i18n/en';
 import es from '../../public/i18n/es';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MyInput from '../../components/input/input';
 import styles from './clans.module.scss';
+import { Constants } from '../../utils/constants';
+import Loader from '../../components/loader/loader';
 
 export default function Clans() {
 
     const router = useRouter();
     const { locale } = router;
     const i18n = locale === 'es' ? es : en;
-    const [clans, setClans] = useState([{id: 1, link: 'https://naruto.fandom.com/pt-br/wiki/Cl%C3%A3_Aburame', name: 'Clan por defecto', icon: 'http://pm1.narvii.com/6401/9166125f4fa0ba70244cadbfba51ace7ecba57d3_00.jpg'}]);
+    const [clans, setClans] = useState([]);
+    const [clansPaginated, setClansPaginated] = useState([]);
+    let clansFiltered = [];
+    let enableNextPage = false;
+    let currentPage = 0;
+    const [showLoader, setShowLoader] = useState(true);
     const [keyWord, setKeyWord] = useState('');
+
+    useEffect(() => {
+        const getClans = async () => {
+            const res = await fetch(Constants.API + Constants.API_PATH.CLAN);
+            const resJson = await res.json();
+            setClans(resJson);
+            clansFiltered = resJson;
+            setClansPaginated(generatePaginationRecords(0));
+            setShowLoader(false);
+        };
+        getClans();
+    }, []);
+
+    useEffect(() => {
+        const filterByName = () => {
+            const searchBy = keyWord.toUpperCase();
+            clansFiltered = clans?.filter(clan => clan?.name?.toUpperCase().includes(searchBy));
+            setClansPaginated(generatePaginationRecords(0));
+            currentPage = 0
+        };
+        filterByName();
+    }, [keyWord])
+
+    const generatePaginationRecords = (currentPage) => {
+        const paginatedRecords = [];
+        const offset = currentPage * 10;
+        clansFiltered?.forEach((clan, index) => {
+            if (index >= offset && index < offset + 10) {
+                paginatedRecords.push(clan);
+            }
+        });
+        enableNextPage = paginatedRecords.length > 9;
+        return paginatedRecords;
+    };
 
     return (
         <Layout>
@@ -42,7 +83,7 @@ export default function Clans() {
                                     </thead>
                                     <tbody>
                                         {
-                                            clans.map((clan, index) => {
+                                            clansPaginated.map((clan, index) => {
                                                 return <tr key={clan?.id || `clan-${index}`} className={[styles.tr, styles.tableRow].join(' ')}>
                                                     <td className='p-3 w-20 text'> 
                                                         {clan?.icon && (<img src={clan?.icon} className={styles.imageIcon}/>)}
@@ -65,7 +106,7 @@ export default function Clans() {
                                     </thead>
                                     <tbody>
                                         {
-                                            clans.map((clan, index) => {
+                                            clansPaginated.map((clan, index) => {
                                                 return <tr key={clan?.id || `clan-${index}`} className={[styles.tr, styles.tableRow, 'w-100'].join(' ')}>
                                                     <td className='p-3 row align-items-center'>
                                                         <aside className='col-3 col-md-2'>
@@ -86,6 +127,9 @@ export default function Clans() {
                     )
                 }
             </main>
+            {
+                showLoader && <Loader></Loader>
+            }
         </Layout>
     );
 }
