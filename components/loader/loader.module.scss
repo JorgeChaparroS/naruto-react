@@ -1,0 +1,38 @@
+@import '../../styles/variables.module.scss';
+
+.loaderContainer {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 2;
+
+    .loaderMessage {
+        height: 200px;
+        width: 200px;
+        border-radius: 300px;
+        background-color: $white;
+        opacity: 1 !important;
+
+        @media (min-width: $min-width-tablet) {
+            height: 250px;
+            width: 250px;
+        }
+        @media (min-width: $min-width-desktop) {
+            height: 300px;
+            width: 300px;
+        }
+
+        .img {
+            max-width: 80px;
+            @media (min-width: $min-width-tablet) {
+                max-width: 100px;
+            }
+            @media (min-width: $min-width-desktop) {
+                max-width: 140px;
+            }
+        }
+    }
+}
