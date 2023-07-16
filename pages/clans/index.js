@@ -6,9 +6,9 @@ import es from '../../public/i18n/es';
 import { useState, useEffect } from 'react';
 import MyInput from '../../components/input/input';
 import styles from './clans.module.scss';
-import { Constants } from '../../utils/constants';
 import Loader from '../../components/loader/loader';
 import Paginator from '../../components/paginator/paginator';
+import { getClans } from '../../utils/utils';
 
 export default function Clans() {
 
@@ -16,50 +16,45 @@ export default function Clans() {
     const { locale } = router;
     const i18n = locale === 'es' ? es : en;
     const [clans, setClans] = useState([]);
-    const [clansPaginated, setClansPaginated] = useState([]);
-    let clansFiltered = [];
-    let enableNextPage = false;
-    const [currentPage, setCurrentPage] = useState(0);
+    const [clansFiltered, setClansFiltered] = useState([]);
+    const [currentPage, setCurrentPage] = useState();
     const [showLoader, setShowLoader] = useState(true);
     const [keyWord, setKeyWord] = useState('');
+    let enableNextPage = false;
 
     useEffect(() => {
-        const getClans = async () => {
-            const res = await fetch(Constants.API + Constants.API_PATH.CLAN);
-            const resJson = await res.json();
+        const getClansFromApi = async () => {
+            const resJson = await getClans();
             setClans(resJson);
-            clansFiltered = resJson;
-            setClansPaginated(generatePaginationRecords(0));
+            setClansFiltered(resJson);
             setShowLoader(false);
         };
-        getClans();
-    }, [])
+        getClansFromApi();
+    }, []);
 
     useEffect(() => {
         const filterByName = () => {
             const searchBy = keyWord.toUpperCase();
-            clansFiltered = clans?.filter(clan => clan?.name?.toUpperCase().includes(searchBy));
-            setClansPaginated(generatePaginationRecords(0));
+            setClansFiltered(clans?.filter(clan => clan?.name?.toUpperCase().includes(searchBy)));
+            generatePaginationRecords(0);
             setCurrentPage(0);
         };
         filterByName();
-    }, [keyWord])
-
-    useEffect(() => {
-        setClansPaginated(generatePaginationRecords(currentPage));
-    }, [currentPage]);
+    }, [keyWord]);
 
     const generatePaginationRecords = (newCurrentPage) => {
         const paginatedRecords = [];
         const offset = newCurrentPage * 10;
         clansFiltered?.forEach((clan, index) => {
             if (index >= offset && index < offset + 10) {
-                paginatedRecords.push(clan);
+                paginatedRecords.push(clan); 
             }
         });
-        enableNextPage = paginatedRecords.length > 9;
         return paginatedRecords;
     };
+
+    const clansPaginated = generatePaginationRecords(currentPage || 0);
+    enableNextPage = clansPaginated.length > 9;
 
     return (
         <Layout>
@@ -128,7 +123,7 @@ export default function Clans() {
                                     </tbody>
                                 </table>
 
-                                <Paginator enableNextPage={true} currentPage={currentPage} setCurrentPage={setCurrentPage}></Paginator>
+                                <Paginator enableNextPage={enableNextPage} currentPage={currentPage || 0} setCurrentPage={setCurrentPage}></Paginator>
                             </section>
                         </>
                     )
