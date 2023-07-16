@@ -21,14 +21,21 @@ export default function Clans() {
     const [showLoader, setShowLoader] = useState(true);
     const [keyWord, setKeyWord] = useState('');
     let enableNextPage = false;
-
-    useEffect(() => {
-        const getClansFromApi = async () => {
+    
+    const getClansFromApi = async () => {
+        try {
             const resJson = await getClans();
             setClans(resJson);
             setClansFiltered(resJson);
             setShowLoader(false);
-        };
+        } catch {
+            setClans([]);
+            setClansFiltered([]);
+            setShowLoader(false);
+        }
+    };
+
+    useEffect(() => {
         getClansFromApi();
     }, []);
 
