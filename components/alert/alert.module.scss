@@ -1,0 +1,35 @@
+@import '../../styles/variables.module.scss';
+
+.appModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    min-width: 101vw;
+    width: auto;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .appModalContent {
+    background-color: $white;
+    border: 1px solid $gray;
+    border-radius: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

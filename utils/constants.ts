@@ -12,4 +12,8 @@ export class Constants {
         CLAN: '/clans',
         CHARACTER: '/characters'
     };
+
+    static readonly COMPONENTS = {
+        ALERT_ERROR_ID: 'alert-error'
+    };
 }
