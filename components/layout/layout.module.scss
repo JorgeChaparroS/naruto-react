@@ -1,0 +1,11 @@
+@import '../../styles/variables.module.scss';
+
+.i {
+    font-size: 25px;
+    border-radius: 25px;
+    background-color: $red;
+}
+
+.img {
+    max-width: 100px;
+}

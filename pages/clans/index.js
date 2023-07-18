@@ -8,7 +8,7 @@ import MyInput from '../../components/input/input';
 import styles from './clans.module.scss';
 import Loader from '../../components/loader/loader';
 import Paginator from '../../components/paginator/paginator';
-import { getClans } from '../../utils/utils';
+import { getClans, openModalError } from '../../utils/utils';
 
 export default function Clans() {
 
@@ -32,6 +32,7 @@ export default function Clans() {
             setClans([]);
             setClansFiltered([]);
             setShowLoader(false);
+            openModalError();
         }
     };
 
@@ -42,7 +43,7 @@ export default function Clans() {
     useEffect(() => {
         const filterByName = () => {
             const searchBy = keyWord.toUpperCase();
-            setClansFiltered(clans?.filter(clan => clan?.name?.toUpperCase().includes(searchBy)));
+            setClansFiltered(clans?.length > 0 ? clans?.filter(clan => clan?.name?.toUpperCase().includes(searchBy)) : []);
             generatePaginationRecords(0);
             setCurrentPage(0);
         };
@@ -52,11 +53,13 @@ export default function Clans() {
     const generatePaginationRecords = (newCurrentPage) => {
         const paginatedRecords = [];
         const offset = newCurrentPage * 10;
-        clansFiltered?.forEach((clan, index) => {
-            if (index >= offset && index < offset + 10) {
-                paginatedRecords.push(clan); 
-            }
-        });
+        if (clansFiltered?.length > 0) {
+            clansFiltered?.forEach((clan, index) => {
+                if (index >= offset && index < offset + 10) {
+                    paginatedRecords.push(clan); 
+                }
+            });
+        }
         return paginatedRecords;
     };
 
