@@ -74,13 +74,13 @@ export default function Characters() {
             const charactersFromApi = await getCharacters((currentPage * 6), sorting, keyWord);
             setEnableNextPage(charactersFromApi.length > 5);
             setCharacters(charactersFromApi);
-            setShowLoader(false);
         } catch (error) {
             if (error.statusCode !== 404) {
                 openModalError();
             }
             setCharacters([]);
             setEnableNextPage(false);
+        } finally {
             setShowLoader(false);
         }
     };

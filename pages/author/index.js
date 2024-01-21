@@ -33,7 +33,6 @@ export default function Author() {
                 <div className={['p-4', styles.cvContainer].join(' ')}>
 
                     <section className="d-flex flex-column justify-content-center align-items-center mb-4">
-                        {/* <img src={JorgePhoto} alt="Jorge Leonardo Chaparro Sarmiente pic" className={['mb-3', styles.img].join(' ')}></img> */}
                         <Image 
                             src={JorgePhoto}
                             className={['mb-3', styles.img].join(' ')}
