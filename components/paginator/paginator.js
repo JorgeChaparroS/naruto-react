@@ -6,11 +6,11 @@ import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 export default function Paginator({enableNextPage, currentPage, setCurrentPage}) {
 
     const prevPage = () => {
-        setCurrentPage(currentPage - 1);
+        setCurrentPage((prePageState) => prePageState - 1);
     };
 
     const nextPage = () => {
-        setCurrentPage(currentPage + 1);
+        setCurrentPage((prePageState) => prePageState + 1);
     };
 
     if (!(!enableNextPage && currentPage === 0)) {

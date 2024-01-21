@@ -156,7 +156,7 @@ export default {
     },
     "aboutProject": {
         "title": "Sobre este proyecto",
-        "description": "Este proyecto se desarrolló usando el framework de React: NextJs en su versión 13. Es el primer proyecto que realizo con esta tecnología, así que perdonen las malas prácticas jaja.",
+        "description": "Este proyecto se desarrolló usando el framework de React: NextJs en su versión 13.",
         "thanks": "Muchas gracias por tomarse el tiempo para echarle un ojo a este proyecto que con mucha pasión, tanto por Naruto como por el desarrollo FrontEnd desarrollé en mis tiempos libres."
     }
 };

@@ -1,49 +1,31 @@
 import Head from 'next/head';
 import Layout from '../../components/layout/layout';
-import { useRouter } from 'next/router';
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
 import MyInput from '../../components/input/input';
 import MyButton from '../../components/button/button';
 import Loader from '../../components/loader/loader';
 import Paginator from '../../components/paginator/paginator';
 import CardCharacter from '../../components/card-character/card-character';
-import Alert from '../../components/alert/alert';
 import { useEffect, useState } from 'react';
 import styles from './characters.module.scss';
-import { getCharacters } from '../../utils/utils';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
-import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
-import { openModalError } from '../../utils/utils';
+import { useLanguage } from 'hooks/language';
+import { Constants } from 'utils/constants';
+import { openCustomModal } from 'utils/utils';
+import { useCharacters } from 'hooks/characters';
+import CharacterDetail from '../../components/character-detail/character-detail';
 
 export default function Characters() {
 
-    const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
+    const {characters, showLoader, enableNextPage, getCharactersFromAPI} = useCharacters();
 
-    const modalDetailId = 'character-detail-modal';
     const [characterSelected, setCharacterSelected] = useState(null);
-    const [infoKeys, setInfoKeys] = useState([]);
-    const [indexImageCharacter, setIndexImageCharacter] = useState(0);
 
     const [sorting, setSorting] = useState(true);
-    const [characters, setCharacters] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
-    const [showLoader, setShowLoader] = useState(true);
-    const [enableNextPage, setEnableNextPage] = useState(false);
-    
-    let keyWord = '';
-    const setKeyWord = (value) => {
-        keyWord = value;
-        if (!value) {
-            getCharactersFromAPI();
-        }
-    };
+    const [keyWord, setKeyWord] = useState('');
 
     const onHandleClickButtonSearch = () => {
-        getCharactersFromAPI();
+        getCharactersFromAPI(currentPage, sorting, keyWord);
     }
 
     const changeSorting = () => {
@@ -51,46 +33,12 @@ export default function Characters() {
     };
 
     const openModalDetail = (character) => {
-        setInfoKeys(Object.keys(character?.info));
         setCharacterSelected(character);
-        setIndexImageCharacter(0);
-        const modal = document.getElementById(modalDetailId);
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    };
-
-    const onChangeImage = (operation) => {
-        const valueToAdd = operation === 'increase' ? 1 : -1;
-        setIndexImageCharacter(indexImageCharacter + valueToAdd);
-    };
-
-    const closeAlertDetail = () => {
-        const modal = document.getElementById(modalDetailId);
-        if (modal) {
-            modal.style.display = 'none';
-        }
-    };
-
-    const getCharactersFromAPI = async () => {
-        setShowLoader(true);
-        try {
-            const charactersFromApi = await getCharacters((currentPage * 6), sorting, keyWord);
-            setEnableNextPage(charactersFromApi.length > 5);
-            setCharacters(charactersFromApi);
-            setShowLoader(false);
-        } catch (error) {
-            if (error.statusCode !== 404) {
-                openModalError();
-            }
-            setCharacters([]);
-            setEnableNextPage(false);
-            setShowLoader(false);
-        }
+        openCustomModal(Constants.COMPONENTS.MODAL_DETAIL_ID);
     };
 
     useEffect(() => {
-        getCharactersFromAPI();
+        getCharactersFromAPI(currentPage, sorting, keyWord);
     }, [currentPage, sorting]);
 
     return (
@@ -140,54 +88,7 @@ export default function Characters() {
                 {
                     showLoader && <Loader></Loader>
                 }
-                <Alert modalId={modalDetailId} sizeInCols='col-10 col-xl-8'>
-                    <>
-                        <article className="d-flex flex-column align-items-center">
-                            <h5 className="bold text-center">{ characterSelected?.name }</h5>
-                            {
-                                characterSelected?.images?.length > 0 && <section className="d-flex flex-row w-100 justify-content-between justify-content-md-center align-items-center mt-3">
-                                    <button className={["btn btn-" + (indexImageCharacter === 0 ? 'secondary' : 'success'), styles.buttonForalert].join(' ')}
-                                        disabled={indexImageCharacter === 0}
-                                        onClick={() => onChangeImage('decrease')}>
-                                        <FontAwesomeIcon icon={faArrowCircleLeft} className={["mx-2", styles.iForalert].join(' ')}></FontAwesomeIcon>
-                                    </button>
-                                    <img src={characterSelected?.images?.[indexImageCharacter]} className={["mx-1 mx-md-3", styles.imgForalert, styles.img].join(' ')}/>
-                                    <button className={["btn btn-" + (indexImageCharacter === ((characterSelected?.images?.length || 1) - 1) ? 'secondary' : 'success'), styles.buttonForalert].join(' ')}
-                                        disabled={indexImageCharacter === ((characterSelected?.images?.length || 1) - 1)}
-                                        onClick={() => onChangeImage('increase')}>
-                                        <FontAwesomeIcon icon={faArrowCircleRight} className={["mx-2", styles.iForalert].join(' ')}></FontAwesomeIcon>
-                                    </button>
-                                </section>
-                            }
-                            {
-                                characterSelected?.page && <p className='text'>
-                                    <a href={characterSelected?.page} target="_blank">{ i18n.charactersPage.fanPage }</a>
-                                </p>
-                            }
-                            {
-                                infoKeys?.length > 0 && <section className='row flex-row px-4 my-3'>
-                                    {
-                                        infoKeys?.map((infoKey, index) => {
-                                            return <div key={'data_'+index} className='col-12 col-md-6 col-xl-4 mb-3'>
-                                                <span className="small-text">{infoKey}:</span>
-                                                <p className="text bold m-0">{characterSelected?.info?.[infoKey]}</p>
-                                            </div>
-                                        })
-                                    }
-                                </section>
-                            }
-                            <section className="row w-100 justify-content-center">
-                                <div className='col-8 col-md-4 col-xl-3'>
-                                    <MyButton 
-                                        buttonLabel={i18n.charactersPage.buttonModal}
-                                        buttonClass='success'
-                                        buttonClicked={closeAlertDetail}
-                                    ></MyButton>
-                                </div>
-                            </section>
-                        </article>
-                    </>
-                </Alert>
+                <CharacterDetail characterSelected={characterSelected}></CharacterDetail>
             </main>
         </Layout>
     );

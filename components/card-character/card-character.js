@@ -1,14 +1,10 @@
 import styles from './card-character.module.scss';
 import MyButton from '../button/button';
-import { useRouter } from 'next/router';
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
+import { useLanguage } from 'hooks/language';
 
 export default function CardCharacter({characterInfo, onHadleBtnClick}) {
 
-    const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
 
     return <div className='w-100 row flex-column align-items-center card mx-0 px-0 py-3 py-md-4'>
         { characterInfo?.images[0] && <img src={characterInfo?.images[0]} className={['col-8 mb-2 mb-md-3 px-0 border-success', styles.img].join(' ')}/> }

@@ -1,15 +1,11 @@
 import Head from 'next/head';
 import Layout from '../components/layout/layout';
-import { useRouter } from 'next/router';
-import en from '../public/i18n/en';
-import es from '../public/i18n/es'; 
 import CardMainPage from '../components/card-main-page/card-main-page';
+import { useLanguage } from '../hooks/language';
 
 export default function Home() {
 
-  const router = useRouter();
-  const { locale } = router;
-  const i18n = locale === 'es' ? es : en;
+  const {i18n} = useLanguage();
 
   return (
     <Layout>

@@ -1,14 +1,12 @@
 import styles from './card-main-page.module.scss';
 import MyButton from '../button/button';
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
+import { useLanguage } from 'hooks/language';
 import { useRouter } from 'next/router';
 
-export default function CardMainPage({cardImageUrl, cardFor, cardTile, cardDescription}){
 
+export default function CardMainPage({cardImageUrl, cardFor, cardTile, cardDescription}){
     const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
 
     const classDependingCardfor = cardFor !== 'clans' ? 'info' : 'warning';
     const imageStyles = ['col-8 mb-2 mb-md-3 px-0', styles.img, `border-${classDependingCardfor}`].join(' ');

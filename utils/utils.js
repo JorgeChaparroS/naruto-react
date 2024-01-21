@@ -1,28 +1,19 @@
 import { Constants } from './constants';
-import axios from 'axios';
-
-export async function getClans() {
-    try {
-        const response = await axios.get(Constants.API + Constants.API_PATH.CLAN);
-        return response?.data;
-    } catch (error) {
-        throw error;
-    }
-}
-
-export async function getCharacters(offset, sort, name) {
-    try {
-        const endpoint = Constants.API + Constants.API_PATH.CHARACTER + `?limit=6&offset=${offset}${sort ? '&sort=true' : ''}${name ? `&name=${name}` : ''}`;
-        const response = await axios.get(endpoint);
-        return response?.data;
-    } catch (error) {
-        throw error?.response?.data;
-    }
-}
 
 export function openModalError() {
-    const modal = document.getElementById(Constants.COMPONENTS.ALERT_ERROR_ID);
+    openCustomModal(Constants.COMPONENTS.ALERT_ERROR_ID);
+}
+
+export function openCustomModal(modalId) {
+    const modal = document.getElementById(modalId);
     if (modal) {
         modal.style.display = 'flex';
+    }
+}
+
+export function closeCustomModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
     }
 }

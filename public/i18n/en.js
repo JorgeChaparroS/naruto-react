@@ -156,7 +156,7 @@ export default {
     },
     "aboutProject": {
         "title": "About this project",
-        "description": "This project was developed using NextJs 13, a React framework. It is the first project that I work in using this technology, so please forgive my bad practices LOL.",
+        "description": "This project was developed using NextJs 13, a React framework.",
         "thanks": "Thanks a lot for taking the time to check this project out. I have developed it in my free time with so much passion, for Naruto and of course the FrontEnd development."
     }
 };

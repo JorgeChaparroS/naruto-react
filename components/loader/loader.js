@@ -1,13 +1,9 @@
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
-import { useRouter } from 'next/router';
+import { useLanguage } from 'hooks/language';
 import styles from './loader.module.scss';
 
 export default function Loader() {
 
-    const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
 
     return <div className={[styles.loaderContainer, 'd-flex align-items-center justify-content-center'].join(' ')}>
             <section className={[styles.loaderMessage, 'd-flex flex-column align-items-center justify-content-center'].join(' ')}>
