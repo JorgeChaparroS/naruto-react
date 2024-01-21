@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getClans } from 'api/apiUtils'
+import { getClans } from 'api/clans'
 
 export function useClans () {
     const [clans, setClans] = useState([]);

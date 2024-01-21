@@ -14,6 +14,7 @@ export class Constants {
     };
 
     static COMPONENTS = {
-        ALERT_ERROR_ID: 'alert-error'
+        ALERT_ERROR_ID: 'alert-error',
+        MODAL_DETAIL_ID: 'character-detail-modal'
     };
 }

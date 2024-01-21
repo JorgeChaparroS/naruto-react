@@ -8,38 +8,28 @@ import CardCharacter from '../../components/card-character/card-character';
 import Alert from '../../components/alert/alert';
 import { useEffect, useState } from 'react';
 import styles from './characters.module.scss';
-import { getCharacters } from '../../utils/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
-import { openModalError } from '../../utils/utils';
 import { useLanguage } from 'hooks/language';
+import { Constants } from 'utils/constants';
+import { useCharacters } from 'hooks/characters';
 
 export default function Characters() {
 
     const {i18n} = useLanguage();
+    const {characters, showLoader, enableNextPage, getCharactersFromAPI} = useCharacters();
 
-    const modalDetailId = 'character-detail-modal';
     const [characterSelected, setCharacterSelected] = useState(null);
     const [infoKeys, setInfoKeys] = useState([]);
     const [indexImageCharacter, setIndexImageCharacter] = useState(0);
 
     const [sorting, setSorting] = useState(true);
-    const [characters, setCharacters] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
-    const [showLoader, setShowLoader] = useState(true);
-    const [enableNextPage, setEnableNextPage] = useState(false);
-    
-    let keyWord = '';
-    const setKeyWord = (value) => {
-        keyWord = value;
-        if (!value) {
-            getCharactersFromAPI();
-        }
-    };
+    const [keyWord, setKeyWord] = useState('');
 
     const onHandleClickButtonSearch = () => {
-        getCharactersFromAPI();
+        getCharactersFromAPI(currentPage, sorting, keyWord);
     }
 
     const changeSorting = () => {
@@ -50,7 +40,7 @@ export default function Characters() {
         setInfoKeys(Object.keys(character?.info));
         setCharacterSelected(character);
         setIndexImageCharacter(0);
-        const modal = document.getElementById(modalDetailId);
+        const modal = document.getElementById(Constants.COMPONENTS.MODAL_DETAIL_ID);
         if (modal) {
             modal.style.display = 'flex';
         }
@@ -62,31 +52,14 @@ export default function Characters() {
     };
 
     const closeAlertDetail = () => {
-        const modal = document.getElementById(modalDetailId);
+        const modal = document.getElementById(Constants.COMPONENTS.MODAL_DETAIL_ID);
         if (modal) {
             modal.style.display = 'none';
         }
     };
 
-    const getCharactersFromAPI = async () => {
-        setShowLoader(true);
-        try {
-            const charactersFromApi = await getCharacters((currentPage * 6), sorting, keyWord);
-            setEnableNextPage(charactersFromApi.length > 5);
-            setCharacters(charactersFromApi);
-        } catch (error) {
-            if (error.statusCode !== 404) {
-                openModalError();
-            }
-            setCharacters([]);
-            setEnableNextPage(false);
-        } finally {
-            setShowLoader(false);
-        }
-    };
-
     useEffect(() => {
-        getCharactersFromAPI();
+        getCharactersFromAPI(currentPage, sorting, keyWord);
     }, [currentPage, sorting]);
 
     return (
@@ -136,7 +109,7 @@ export default function Characters() {
                 {
                     showLoader && <Loader></Loader>
                 }
-                <Alert modalId={modalDetailId} sizeInCols='col-10 col-xl-8'>
+                <Alert modalId={Constants.COMPONENTS.MODAL_DETAIL_ID} sizeInCols='col-10 col-xl-8'>
                     <>
                         <article className="d-flex flex-column align-items-center">
                             <h5 className="bold text-center">{ characterSelected?.name }</h5>
