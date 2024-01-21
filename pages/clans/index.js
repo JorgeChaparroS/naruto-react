@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import Layout from '../../components/layout/layout';
-import { useRouter } from 'next/router';
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
+import { useLanguage } from 'hooks/language';
 import { useState, useEffect } from 'react';
 import MyInput from '../../components/input/input';
 import styles from './clans.module.scss';
@@ -12,9 +10,7 @@ import { getClans, openModalError } from '../../utils/utils';
 
 export default function Clans() {
 
-    const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
     const [clans, setClans] = useState([]);
     const [clansFiltered, setClansFiltered] = useState([]);
     const [currentPage, setCurrentPage] = useState();

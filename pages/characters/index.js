@@ -1,8 +1,5 @@
 import Head from 'next/head';
 import Layout from '../../components/layout/layout';
-import { useRouter } from 'next/router';
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
 import MyInput from '../../components/input/input';
 import MyButton from '../../components/button/button';
 import Loader from '../../components/loader/loader';
@@ -16,12 +13,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 import { openModalError } from '../../utils/utils';
+import { useLanguage } from 'hooks/language';
 
 export default function Characters() {
 
-    const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
 
     const modalDetailId = 'character-detail-modal';
     const [characterSelected, setCharacterSelected] = useState(null);

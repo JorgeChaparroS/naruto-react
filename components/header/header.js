@@ -1,7 +1,6 @@
 import styles from './header.module.scss';
+import { useLanguage } from 'hooks/language';
 import { useRouter } from 'next/router';
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
 import Language from '../language/language';
 
 const imageHeaderUrl = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Shuriken_%28Naruto%29.svg/2048px-Shuriken_%28Naruto%29.svg.png';
@@ -13,8 +12,7 @@ const h1Classes = [styles.h1, 'col-12', 'col-xl-8'].join(' ');
 export default function Header(){
 
     const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
 
     return (
         <>

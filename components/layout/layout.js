@@ -2,18 +2,14 @@ import Header from '../header/header';
 import Footer from '../footer/footer';
 import Alert from '../alert/alert';
 import { Constants } from '../../utils/constants';
-import { useRouter } from 'next/router';
-import en from '../../public/i18n/en';
-import es from '../../public/i18n/es';
+import { useLanguage } from 'hooks/language';
 import styles from './layout.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWarning } from '@fortawesome/free-solid-svg-icons';
 
 export default function Layout({ children }) {
 
-    const router = useRouter();
-    const { locale } = router;
-    const i18n = locale === 'es' ? es : en;
+    const {i18n} = useLanguage();
 
     return (
         <>
