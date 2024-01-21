@@ -1,0 +1,21 @@
+@import '../../styles/variables.module.scss';
+
+.img {
+    border: 3px solid;
+}
+
+.imgForalert {
+    height: 250px;
+    object-fit: cover;
+    @media (max-width: $min-width-tablet) {
+        max-width: 45vw;
+    }
+}
+.buttonForalert {
+    .iForalert {
+        font-size: 18px;
+        @media (min-width: $min-width-tablet) {
+            font-size: 25px;
+        }
+    }
+}

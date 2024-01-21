@@ -1,11 +1,12 @@
 import styles from './alert.module.scss';
+import { closeCustomModal } from 'utils/utils';
 
-export default function Alert({ children, sizeInCols, modalId }) {
+export default function Alert({ children, sizeInCols, modalId, extraExecution }) {
 
     const closeModal = () => {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
+        closeCustomModal(modalId);
+        if (extraExecution) {
+            extraExecution();
         }
     }
 
