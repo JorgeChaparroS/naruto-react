@@ -1,14 +1,6 @@
 import { Constants } from './constants';
 import axios from 'axios';
 
-export async function getClans() {
-    try {
-        const response = await axios.get(Constants.API + Constants.API_PATH.CLAN);
-        return response?.data;
-    } catch (error) {
-        throw error;
-    }
-}
 
 export async function getCharacters(offset, sort, name) {
     try {

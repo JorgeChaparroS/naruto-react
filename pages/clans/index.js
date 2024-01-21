@@ -6,35 +6,16 @@ import MyInput from '../../components/input/input';
 import styles from './clans.module.scss';
 import Loader from '../../components/loader/loader';
 import Paginator from '../../components/paginator/paginator';
-import { getClans, openModalError } from '../../utils/utils';
+import { useClans } from 'hooks/clans';
 
 export default function Clans() {
 
     const {i18n} = useLanguage();
-    const [clans, setClans] = useState([]);
+    const { clans, showLoader } = useClans();
     const [clansFiltered, setClansFiltered] = useState([]);
     const [currentPage, setCurrentPage] = useState();
-    const [showLoader, setShowLoader] = useState(true);
     const [keyWord, setKeyWord] = useState('');
     let enableNextPage = false;
-    
-    const getClansFromApi = async () => {
-        try {
-            const resJson = await getClans();
-            setClans(resJson);
-            setClansFiltered(resJson);
-            setShowLoader(false);
-        } catch {
-            setClans([]);
-            setClansFiltered([]);
-            setShowLoader(false);
-            openModalError();
-        }
-    };
-
-    useEffect(() => {
-        getClansFromApi();
-    }, []);
 
     useEffect(() => {
         const filterByName = () => {
@@ -44,7 +25,7 @@ export default function Clans() {
             setCurrentPage(0);
         };
         filterByName();
-    }, [keyWord]);
+    }, [keyWord, clans]);
 
     const generatePaginationRecords = (newCurrentPage) => {
         const paginatedRecords = [];
