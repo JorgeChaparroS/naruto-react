@@ -1,47 +1,28 @@
 import Head from 'next/head';
 import Layout from '../../components/layout/layout';
 import { useLanguage } from 'hooks/language';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import MyInput from '../../components/input/input';
 import styles from './clans.module.scss';
 import Loader from '../../components/loader/loader';
 import Paginator from '../../components/paginator/paginator';
 import { useClans } from 'hooks/clans';
+import { useFilterClans } from 'hooks/filterClans';
+import { usePaginateClans } from 'hooks/paginateClans';
+import { useEffect } from 'react';
 
 export default function Clans() {
 
-    const {i18n} = useLanguage();
+    const { i18n } = useLanguage();
     const { clans, showLoader } = useClans();
-    const [clansFiltered, setClansFiltered] = useState([]);
-    const [currentPage, setCurrentPage] = useState();
-    const [keyWord, setKeyWord] = useState('');
-    let enableNextPage = false;
+    const [ keyWord, setKeyWord ] = useState('');
+    const { clansFiltered } = useFilterClans({clans, keyWord});
+    const [ currentPage, setCurrentPage ] = useState(0);
+    const { clansPaginated, enableNextPage } = usePaginateClans({clansFiltered, currentPage});
 
     useEffect(() => {
-        const filterByName = () => {
-            const searchBy = keyWord.toUpperCase();
-            setClansFiltered(clans?.length > 0 ? clans?.filter(clan => clan?.name?.toUpperCase().includes(searchBy)) : []);
-            generatePaginationRecords(0);
-            setCurrentPage(0);
-        };
-        filterByName();
-    }, [keyWord, clans]);
-
-    const generatePaginationRecords = (newCurrentPage) => {
-        const paginatedRecords = [];
-        const offset = newCurrentPage * 10;
-        if (clansFiltered?.length > 0) {
-            clansFiltered?.forEach((clan, index) => {
-                if (index >= offset && index < offset + 10) {
-                    paginatedRecords.push(clan); 
-                }
-            });
-        }
-        return paginatedRecords;
-    };
-
-    const clansPaginated = generatePaginationRecords(currentPage || 0);
-    enableNextPage = clansPaginated.length > 9;
+        setCurrentPage(0);
+    }, [keyWord]);
 
     return (
         <Layout>
